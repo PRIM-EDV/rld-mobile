@@ -1,5 +1,7 @@
 {
   "name": "RLDMobile",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "ionic-angular"
 }

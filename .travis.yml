@@ -1,0 +1,39 @@
+#sudo: required
+language: android
+
+android:
+  components:
+    - build-tools-26.0.2
+    - android-27
+    - extra
+
+  licenses:
+  - 'android-sdk-preview-license-52d11cd2'
+  - 'android-sdk-license-.+'
+  - 'google-gdk-license-.+'
+
+jdk:
+  - openjdk8
+
+before_install:
+  - sudo apt-get update
+  
+  # load NodeJS 11
+
+  - nvm install node
+  - nvm use node
+
+  - node --version
+  - npm --version
+  #- sudo apt install npm
+
+before_script:
+
+  - npm install -g cordova ionic
+
+  - ionic cordova platform rm android
+  - ionic cordova platform add android
+
+script:
+  - ionic cordova prepare
+  - ionic cordova build android 

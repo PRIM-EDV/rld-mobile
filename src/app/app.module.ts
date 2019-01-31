@@ -7,8 +7,11 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 
+import { NavigationDrawerComponent } from './navigation-drawer/navigation-drawer.component';
+
 @NgModule({
   declarations: [
+    NavigationDrawerComponent,
     MyApp,
     HomePage
   ],
