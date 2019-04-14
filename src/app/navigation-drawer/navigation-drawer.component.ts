@@ -20,6 +20,7 @@ export class NavigationDrawerComponent {
             {name : "MAP", icon : "map.png", destination : ""},
             {name : "CALIBRATION", icon : "map.png", destination : ""},
             {name : "Calibration", icon : "map.png", destination : ""},
+            {name : "Device", icon : "map.png", destination : ""},
         ]
     }
 }

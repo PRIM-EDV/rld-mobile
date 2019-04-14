@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
 import * as Hammer from 'hammerjs';
 // import { MapService } from "./map.service";
-import { Coordinate } from './utils/coordinate.util';
+import { Coordinate } from './backend/utils/coordinate.util';
 import { Map, MapLayer} from './utils/map.util';
-// import { BackendService } from "../backend/backend.service";
+import { BluetoothBackendService as BackendService} from './backend/bluetooth-backend.service';
+// import { BackendService } as BackendService from "../backend/backend.service";
 
 // interface IconSet {
 //     self: HTMLImageElement,
@@ -71,7 +72,7 @@ export class MapComponent {
     // dragItemY: number = 0;
     
 
-    constructor(/*private mapService: MapService ,*/ /*public backend: BackendService*/) {
+    constructor(private _backend: BackendService /*public backend: BackendService*/) {
     //     this.map = new Image();
     //     this.mapfile = {
     //         urls: [

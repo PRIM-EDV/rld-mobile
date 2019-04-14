@@ -1,4 +1,4 @@
-import { Coordinate } from './coordinate.util';
+import { Coordinate } from '../backend/utils/coordinate.util';
 
 export interface MapLayer {
     image: HTMLImageElement;
