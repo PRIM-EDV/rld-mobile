@@ -8,13 +8,11 @@ import { BluetoothBackendService } from '../map/backend/bluetooth-backend.servic
 
 })
 export class DeviceComponent {
-    private _bondedDevices: [] = []
+    private _bondedDevices: any[] = []
 
     constructor(private _bluetoohBackend: BluetoothBackendService){
         this._bluetoohBackend.getBondedDevices((devices) =>{
             this._bondedDevices = devices;
         })
     }
-
-    
 }

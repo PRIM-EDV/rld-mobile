@@ -1,13 +1,15 @@
 import { Coordinate } from '../backend/utils/coordinate.util';
 
-export interface MapLayer {
+export interface MapData {
     image: HTMLImageElement;
     imageUrl: string;
     origin: Coordinate;
     resolution: [number, number];
+    active?: boolean;
 }
 
-export class Map {
-    public layers: [MapLayer]
-    public name: string
+export class MapFile {
+    public layers: [MapData];
+    public name: string;
 }
+

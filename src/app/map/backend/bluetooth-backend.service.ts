@@ -1,11 +1,12 @@
-import { BackendService, MapObject } from "./backend.service";
-import { Bluetooth, BluetoothData } from "./utils/bluetooth.util";
-import { Coordinate } from "./utils/coordinate.util";
+import { Injectable } from '@angular/core';
+import { BackendService, MapObject } from './backend.service';
+import { Bluetooth, BluetoothData } from './utils/bluetooth.util';
+import { Coordinate } from './utils/coordinate.util';
 
-
+@Injectable()
 export class BluetoothBackendService extends BackendService {
 
-    constructor(private bluetooth: Bluetooth) {
+    constructor(private _bluetooth: Bluetooth) {
         super();
     }
 
@@ -14,18 +15,18 @@ export class BluetoothBackendService extends BackendService {
     }
 
     public getMapObject(id: string): MapObject {
-        return {id: "", coord: new Coordinate()}
+        return {id: '', coord: new Coordinate()};
     }
 
-    public connectToDevice(address: string){
-        this.bluetooth.connect(address, this.handleBluetooth) // maybe bindcall
+    public connectToDevice(address: string) {
+        this._bluetooth.connect(address, this.handleBluetooth); // maybe bindcall
     }
 
-    public getBondedDevices(callback: (data: any) => void){
-        this.bluetooth.getBondedDevices(callback)
+    public getBondedDevices(callback: (data: any) => void) {
+        this._bluetooth.getBondedDevices(callback);
     }
 
-    private handleBluetooth(data: BluetoothData){
-        
+    private handleBluetooth(data: BluetoothData) {
+
     }
 }
