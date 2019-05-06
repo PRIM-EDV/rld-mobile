@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import { BLE } from '@ionic-native/ble/ngx';
 
 export interface BluetoothData {
@@ -7,6 +8,9 @@ export interface BluetoothData {
     ts: number;
 }
 
+@Injectable({
+    providedIn: 'root'
+})
 export class Bluetooth {
     private _connectedDevice: any = null;
 

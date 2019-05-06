@@ -3,7 +3,9 @@ import { BackendService, MapObject } from './backend.service';
 import { Bluetooth, BluetoothData } from './utils/bluetooth.util';
 import { Coordinate } from './utils/coordinate.util';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root',
+})
 export class BluetoothBackendService extends BackendService {
 
     constructor(private _bluetooth: Bluetooth) {

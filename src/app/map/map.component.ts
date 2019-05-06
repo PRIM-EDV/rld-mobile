@@ -1,9 +1,14 @@
-import {Component} from '@angular/core';
+import {Component, AfterContentInit} from '@angular/core';
 import * as Hammer from 'hammerjs';
 // import { MapService } from "./map.service";
 import { Coordinate } from './backend/utils/coordinate.util';
 import { MapFile, MapData} from './utils/map.util';
 import { BluetoothBackendService as BackendService} from './backend/bluetooth-backend.service';
+
+// Test
+import { PrimMap } from './utils/prim.map';
+import { Layer } from './layers/layer';
+import { MapLayer } from './layers/map.layer';
 
 @Component({
     selector: 'map',
@@ -11,11 +16,12 @@ import { BluetoothBackendService as BackendService} from './backend/bluetooth-ba
     templateUrl: 'map.component.html',
 
 })
-export class MapComponent {
+export class MapComponent implements AfterContentInit {
     private _canvas: HTMLCanvasElement;
     private _ctx: CanvasRenderingContext2D;
     private _mc: HammerManager;
 
+    private _layers: Array<Layer> = [];
     private _mapfile: MapFile = null;
     private _origin: Coordinate = new Coordinate();
 
@@ -29,15 +35,6 @@ export class MapComponent {
     // hColor: string = "rgba(105, 200, 205, 0.75)";
     // hColorSoft: string = "rgba(105, 200, 205, 0.25)"
 
-    // dx: number = 0;
-    // mx: number = 0;
-    // my: number = 0;
-    // dy: number = 0;
-    // dWidth: number;
-    // dHeight: number;
-    // mouseX: string = '';
-    // mouseY: string = '';
-
     // maps: HTMLImageElement[] = [];
 
     // // Quick and Dirty
@@ -48,40 +45,21 @@ export class MapComponent {
 
 
     constructor(private _backend: BackendService) {
-        this._origin.inPixel = {x: 0, y: 0};
-    //     this.map = new Image();
-    //     this.mapfile = {
-    //         urls: [
-    //             'assets/maps/mahlwinkel/base.png',
-    //             'assets/maps/mahlwinkel/streets.png'
-    //         ],
-    //         res: 2.6
-    //     };
-    //     this.mapService.connect(this);
-
-    //     for(let url of this.mapfile.urls){
-    //         let map = new Image();
-
-    //         map.src = url;
-    //         this.maps.push(map)
-    //     }
-
-    //     //this.loadIcons();
     }
 
-    AfterContentInit() {
+    ngAfterContentInit() {
         this._canvas = document.getElementById('cMap') as HTMLCanvasElement;
         this._ctx = this._canvas.getContext('2d');
         this._mc = new Hammer(this._canvas);
 
-    //     window.addEventListener("resize", this.handleWindowResize.bind(this));
-    //     // this.canvas.addEventListener("mousemove", (e: any)=>{
-    //     //     this.mouseX = ((e.offsetX * this.zoom + this.sx) / this.mapfile.res).toFixed(2);
-    //     // })
+        this._mapfile = new PrimMap();
 
-    //     this.maps[0].onload = () => {
-    //         // this.handleWindowResize();
-        this.addPan.call(this);
+        // Add map layers
+        this._layers.push(new MapLayer(this._canvas, this._ctx, this._mapfile));
+
+        // Add event listeners
+        this.startListenToResize();
+        this.startListenToPan();
     //         // this.addPinch.call(this);
     //         // this.addScroll.call(this);
     //         // this.canvas.addEventListener("click", this.handleCLick.bind(this));
@@ -89,14 +67,11 @@ export class MapComponent {
     //         // this.canvas.addEventListener("mousemove", this.handleDrag.bind(this));
     //         // window.addEventListener("mouseup", this.handleDragUp.bind(this));
     //         // document.addEventListener("keydown", this.handleDelete.bind(this));
-    }
-
-    //     window.setInterval(() => {
-    //         console.log("timeout");
-    //         this.updateMap();
-    //     }, 1000);
     // }
-
+        this._mapfile.layers[0].image.onload = () => {
+            this.update();
+        };
+    }
     // handleDelete(ev: KeyboardEvent){
     //     if(this.mapService.selected && ev.key=="Delete"){
     //         let token = this.mapService.selected;
@@ -218,59 +193,60 @@ export class MapComponent {
     //     return pos;
     // }
 
-    // public handleWindowResize() {
-    //     const width = this.canvas.clientWidth;
-    //     const height = this.canvas.clientHeight;
+    public startListenToResize() {
+        window.addEventListener('resize', () => {
+            const width = this._canvas.clientWidth;
+            const height = this._canvas.clientHeight;
 
-    //     this.canvas.width = width;
-    //     this.canvas.height = height;
+            this._canvas.width = width;
+            this._canvas.height = height;
 
-    //     this.updateMap.call(this);
-    // }
-
-    private addPan() {
-        this._mc.add( new Hammer.Pan({ direction: Hammer.DIRECTION_ALL, threshold: 2 }) );
-        this._mc.on('panstart', (e) => {
-            // offset = Coordinate.offset;
+            this.update.call(this);
         });
-        this._mc.on('pan', (e: any) => {
+    }
 
-            if (e.maxPointers === 1) {
-                // Coordinate.offset = {
-                //     x: offset.x - e.deltaX * Coordinate.scale, // Math.max(Math.min(0, this.mx), Math.min(Math.max(0, this.mx), offset.x - e.deltaX * Coordinate.scale)),
-                //     y: offset.y - e.deltaY * Coordinate.scale// Math.max(Math.min(0, this.my), Math.min(Math.max(0, this.my), offset.y - e.deltaY * Coordinate.scale))
-                // };
+    private startListenToPan() {
+        let offset = {x: 0, y: 0};
 
-                this.update();
+        this._mc.add( new Hammer.Pan({ direction: Hammer.DIRECTION_ALL, threshold: 0 }) );
+        this._mc.on('panstart', (e: HammerInput) => {
+            offset = Coordinate.offset;
+            for (const layer of this._layers) {
+                layer.onPanStart(e);
             }
+        });
+        this._mc.on('pan', (e: HammerInput) => {
+            for (const layer of this._layers) {
+                layer.onPan(e, offset);
+            }
+            this.update();
+        });
+    }
+
+    private startListenToPinch() {
+        let pinch = 0;
+        let center = {x: 0, y: 0};
+
+        this._mc.add ( new Hammer.Pinch());
+        this._mc.on('pinchstart', (e: HammerInput) => {
+            pinch = Coordinate.scale;
+            center = {x: e.center.x, y: e.center.y};
+            for (const layer of this._layers) {
+                layer.onPinchStart(e);
+            }
+        });
+        this._mc.on('pinch', (e: HammerInput) => {
+            for (const layer of this._layers) {
+                layer.onPinch(e, pinch, center);
+            }
+            this.update();
         });
     }
 
     // private addPinch() {
-    //     let pinch = 0;
-    //     let centerX = 0;
-    //     let centerY = 0;
-    //     let px = 0;
-    //     let py = 0;
+
 
     //     let maxz = Math.max((this.maps[0].width + 128) / this.canvas.width, (this.maps[0].height + 128) / this.canvas.height);
-
-    //     this.mc.add ( new Hammer.Pinch());
-    //     this.mc.on("pinchstart", (e) => {
-    //         pinch = this.zoom;
-    //         centerX = e.center.x;
-    //         centerY = e.center.y;
-    //         px = this.sx;
-    //         py = this.sy;
-    //     });
-    //     this.mc.on("pinch", (e) => {
-    //         this.zoom = Math.min(Math.max(0.75, pinch * (1 / e.scale)), maxz);
-    //         this.mx = this.maps[0].width  - this.canvas.width * this.zoom;
-    //         this.my = this.maps[0].height - this.canvas.height * this.zoom;
-    //         this.sx = Math.max(Math.min(0, this.mx), Math.min(Math.max(0, this.mx), px + (centerX * pinch - centerX * this.zoom)));
-    //         this.sy = Math.max(Math.min(0, this.my), Math.min(Math.max(0, this.my), py + (centerY * pinch - centerY * this.zoom)));
-    //         this.updateMap();
-    //     });
     // }
 
     // private addScroll() {
@@ -289,16 +265,9 @@ export class MapComponent {
     // }
 
     public update() {
-        const viewport = new Coordinate();
-        viewport.inPixel = {x: this._canvas.width, y: this._canvas.height};
-
         this._ctx.clearRect(0, 0, this._canvas.width, this._canvas.height);
 
-        for (const map of this._mapfile.layers) {
-            if (map.active) {
-                this._ctx.drawImage(map.image, this._origin.inPixel.x, this._origin.inPixel.y, viewport.inPixel.x, viewport.inPixel.y, 0, 0, this._canvas.width, this._canvas.height);
-            }
-        }
+
 
         // this.ctx.clearRect(0,0,32,this.canvas.height);
         // this.ctx.clearRect(0,0,this.canvas.width,32);

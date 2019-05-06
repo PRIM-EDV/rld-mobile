@@ -1,6 +1,8 @@
 import { Iconset } from './iconset.util';
 
 export class PrimIconset extends Iconset {
+    public isReady = false;
+
     protected _iconUrls = [
         'TEstUrl'
     ];

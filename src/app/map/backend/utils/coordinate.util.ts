@@ -1,5 +1,6 @@
 export class Coordinate {
-    private static _offset: {x: number, y: number} = {x: 0, y: 0};
+    private static _offset = {x: 0, y: 0};
+    private static _origin = {x: 0, y: 0};
     private static _scale = 1;
     private static _pixelPerMeter = 1;
 
@@ -7,7 +8,8 @@ export class Coordinate {
     private _y: number;
 
     constructor() {
-
+        this._x = 0;
+        this._y = 0;
     }
 
     public static set scale(s: number) {
@@ -19,12 +21,11 @@ export class Coordinate {
     }
 
     public static get offset(): {x: number, y: number} {
-        return {x: Coordinate._offset.x, y: Coordinate._offset.y};
+        return this._offset;
     }
 
     public static set offset(coord: {x: number, y: number}) {
-        this._offset.x = coord.x;
-        this._offset.y = coord.y;
+        this._offset = coord;
     }
 
     public get inPixel(): {x: number, y: number} {
