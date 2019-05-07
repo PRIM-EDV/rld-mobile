@@ -1,0 +1,3 @@
+[submodule "src\\app\\map"]
+	path = src\\app\\map
+	url = https://github.com/Resistopia/RLDMap.git
