@@ -29,7 +29,7 @@ before_install:
   - yes | sdkmanager "build-tools;28.0.3"
   
   # load NodeJS 11
-  - nvm install node
+  - nvm install 10.13.0
   - nvm use node
 
   - node --version
