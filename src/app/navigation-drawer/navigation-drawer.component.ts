@@ -17,7 +17,6 @@ export class NavigationDrawerComponent {
     constructor() {
         this._pages = [
             {name : 'Tracking', icon: 'satellite.png', destination: ''},
-            {name : 'Device', icon: 'device.png', destination : ''},
         ];
     }
 }

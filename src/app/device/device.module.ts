@@ -5,4 +5,4 @@ import {DeviceComponent} from "./device.component";
     declarations: [DeviceComponent],
     exports: [DeviceComponent],
 })
-export class MapModule {}
+export class DeviceModule {}
