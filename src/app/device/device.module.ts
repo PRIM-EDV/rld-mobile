@@ -1,5 +1,5 @@
-import {NgModule} from "@angular/core";
-import {DeviceComponent} from "./device.component";
+import {NgModule} from '@angular/core';
+import {DeviceComponent} from './device.component';
 
 @NgModule({
     declarations: [DeviceComponent],
