@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { NavigationDrawerComponent } from './navigation-drawer/navigation-drawer.component';
 import { BLE } from '@ionic-native/ble/ngx';
 import { MapContainerModule } from './map-container/map-container.module';
+import { ConfigurationModule } from './configuration/configuration.module';
 
 @NgModule({
   declarations: [AppComponent, NavigationDrawerComponent],
@@ -19,6 +20,7 @@ import { MapContainerModule } from './map-container/map-container.module';
     BrowserModule,
     IonicModule.forRoot(),
     MapContainerModule,
+    ConfigurationModule,
     AppRoutingModule],
   providers: [
     StatusBar,

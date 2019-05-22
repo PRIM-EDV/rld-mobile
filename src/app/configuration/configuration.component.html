@@ -1,0 +1,16 @@
+<div id="tab-bar">
+    <div class="spacer"></div>
+
+    <div *ngFor="let tab of _tabs; let i = index" class="tab" [class.active]="i===0">
+        {{tab.label}}
+    </div>
+    <div class="spacer"></div>
+</div>
+<div id="app-bar">
+    <div id="back">
+        <img src="assets/icons/back.png" />
+    </div>
+    Configuration
+</div>
+
+<router-outlet></router-outlet>

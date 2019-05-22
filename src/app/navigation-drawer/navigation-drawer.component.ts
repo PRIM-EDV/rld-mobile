@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { MenuController } from '@ionic/angular';
 
 interface Page {
     icon: string;
@@ -14,9 +16,14 @@ interface Page {
 export class NavigationDrawerComponent {
     private _pages: Array<Page> = [];
 
-    constructor() {
+    constructor(private _router: Router, private _menu: MenuController) {
         this._pages = [
             {name : 'Tracking', icon: 'satellite.png', destination: ''},
         ];
+    }
+
+    navigate(url: string) {
+        this._menu.close();
+        this._router.navigate([url]);
     }
 }
