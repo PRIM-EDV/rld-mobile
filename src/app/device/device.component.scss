@@ -1,0 +1,23 @@
+div.list{
+    div.subtitle {
+        padding-left: 16px;
+        height: 48px;
+        line-height:48px;
+        
+        font-family: 'roboto';
+        font-size: 12px;
+        font-weight: 500;
+        color: #a0a0a0;
+    }
+
+    div.divider {
+        height: 1px;
+        margin: 16px 16px 16px 16px;
+        border-bottom: 0.5px solid #a0a0a0;
+    }
+
+    div.item {
+        height: 72px;
+        padding: 12px;
+    }
+}

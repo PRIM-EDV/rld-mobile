@@ -1,16 +1,19 @@
 <div id="tab-bar">
     <div class="spacer"></div>
 
-    <div *ngFor="let tab of _tabs; let i = index" class="tab" [class.active]="i===0">
+    <div *ngFor="let tab of _tabs" class="tab" [class.active]="tab.target == _activeTab.target" (click)="switchTab(tab)">
         {{tab.label}}
     </div>
     <div class="spacer"></div>
 </div>
 <div id="app-bar">
-    <div id="back">
+    <div id="back" (click)="back()">
         <img src="assets/icons/back.png" />
     </div>
     Configuration
 </div>
 
-<router-outlet></router-outlet>
+<div style="position:absolute;top:104px;bottom:0px;left:0px;right: 0;">
+    <device *ngIf="_activeTab.target == 'device'"></device>
+    <calibration *ngIf="_activeTab.target == 'calibration'"></calibration>
+</div>

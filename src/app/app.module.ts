@@ -17,11 +17,12 @@ import { ConfigurationModule } from './configuration/configuration.module';
   declarations: [AppComponent, NavigationDrawerComponent],
   entryComponents: [],
   imports: [
+    AppRoutingModule,
     BrowserModule,
     IonicModule.forRoot(),
     MapContainerModule,
     ConfigurationModule,
-    AppRoutingModule],
+    ],
   providers: [
     StatusBar,
     SplashScreen,

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { BluetoothBackendService } from '../map/backend/bluetooth-backend.service';
+import { MenuController } from '@ionic/angular';
 
 @Component({
     selector: 'map-container',
@@ -7,7 +8,11 @@ import { BluetoothBackendService } from '../map/backend/bluetooth-backend.servic
 
 })
 
-export class MapContainerComponent {
-    constructor(public backend: BluetoothBackendService) {
+export class MapContainerComponent implements AfterViewInit {
+    constructor(private _menu: MenuController, public backend: BluetoothBackendService) {
+    }
+
+    ngAfterViewInit() {
+        this._menu.enable(true);
     }
 }
