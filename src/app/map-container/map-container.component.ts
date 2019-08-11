@@ -4,12 +4,13 @@ import { MenuController } from '@ionic/angular';
 
 @Component({
     selector: 'map-container',
-    template:  `<map [_backend]="backend"></map>`
+    template:  `<map style="height: 100%; width: 100%" [_backend]="backend"></map>`
 
 })
 
 export class MapContainerComponent implements AfterViewInit {
     constructor(private _menu: MenuController, public backend: BluetoothBackendService) {
+        console.log(this.backend);
     }
 
     ngAfterViewInit() {

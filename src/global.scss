@@ -10,6 +10,11 @@
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
 
+// .ion-page {
+//     width: 100%;
+//     height: 100%;
+// }
+
 // Fonts
 @font-face {
     font-family: open-sans;
@@ -40,6 +45,8 @@
 }
 
 html, body {
+    width: 100%;
+    height: 100%;
     background-color: #1e1e1e;
 }
 

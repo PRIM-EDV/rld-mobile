@@ -1,6 +1,21 @@
 <div class="list">
     <div class="subtitle">Active device</div>    
-    <div class="item">Item</div>
+    <div class="item">
+        <div class="icon"></div>
+        <div class="description">
+            <span class="name">{{(_activeDevice) ? _activeDevice.name : ''}}</span><br />
+            <span class="details">{{(_activeDevice) ? _activeDevice.id : ''}}</span>
+        </div>
+    </div>
     <div class="divider"></div>
     <div class="subtitle">Paired devices</div>
+    <div class="item" *ngFor="let device of _bondedDevices">
+        <div class="icon" style="background-image: url('../../assets/icons/bluetooth.png');"></div>
+        <div class="description">
+            <span class="name">{{device.name}}</span><br />
+            <span class="details">{{device.id}}</span>
+        </div>
+        <div class="status">{{(_connectingDevice.id == device.id) ? _connectingDevice.status : ''}}</div>
+        <div class="icon" (click)="connect(device.id)" style="background-image: url('../../assets/icons/connect.png');"></div>
+    </div>
 </div>
