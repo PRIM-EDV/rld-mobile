@@ -1,5 +1,5 @@
 div#app-bar {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -12,7 +12,7 @@ div#app-bar {
     font-weight: 500;
     line-height: 48px;
 
-    div#back {
+    div.back {
         display: inline-block;
         width: 48px;
         height: 48px;
@@ -28,7 +28,7 @@ div#app-bar {
 }
 
 div#tab-bar {
-    position: absolute;
+    position: fixed;
     top: 56px;
     left: 0;
     right: 0;
@@ -71,5 +71,20 @@ div#tab-bar {
 }
 
 div#tab-bar::-webkit-scrollbar {
+    display: none;
+}
+
+.page {
+    // position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.active-page {
+
+    display: block;
+};
+
+.in-active-page {
     display: none;
 }

@@ -3,8 +3,8 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', loadChildren: './map-container/map-container.module#MapContainerModule' },
-  { path: 'config', loadChildren: './configuration/configuration.module#ConfigurationModule'}
+  { path: 'home', loadChildren: () => import('./map-container/map-container.module').then(m => m.MapContainerModule) },
+  { path: 'config', loadChildren: () => import('./configuration/configuration.module').then(m => m.ConfigurationModule)}
 ];
 
 @NgModule({

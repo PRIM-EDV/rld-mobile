@@ -1,0 +1,22 @@
+div.button {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    // border-right: 2px solid #007acc;
+    background-color: #151515;
+
+    img {
+        width: 32px;
+        margin: 8px 0 0 8px;
+    }
+}
+
+div.horizontal {
+    top: 50%;
+    margin-top: -24px;
+}
+
+div.vertical {
+    left: 50%;
+    margin-left: -24px;
+}

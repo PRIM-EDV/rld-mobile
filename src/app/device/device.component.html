@@ -1,7 +1,7 @@
 <div class="list">
     <div class="subtitle">Active device</div>    
-    <div class="item">
-        <div class="icon"></div>
+    <div class="item" *ngIf="_activeDevice">
+        <div class="icon" style="background-image: url('../../assets/icons/bluetooth.png');"></div>
         <div class="description">
             <span class="name">{{(_activeDevice) ? _activeDevice.name : ''}}</span><br />
             <span class="details">{{(_activeDevice) ? _activeDevice.id : ''}}</span>

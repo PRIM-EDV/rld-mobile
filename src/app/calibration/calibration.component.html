@@ -1,0 +1,11 @@
+<map style="height: 100%; width: 100%" [_backend]="backend" [_movable]="false"></map>
+
+<div class="button vertical" (click)="move({x: 0, y: -5})" style="top: 56px"><img src="assets/icons/btn_up.png" /></div>
+<div class="button vertical" (click)="move({x: 0, y: -15})" style="top: 4px"><img src="assets/icons/btn_dup.png" /></div>
+<div class="button vertical" (click)="move({x: 0, y: 15})" style="bottom: 4px"><img src="assets/icons/btn_ddown.png" /></div>
+<div class="button vertical" (click)="move({x: 0, y: 5})" style="bottom: 56px"><img src="assets/icons/btn_down.png" /></div>
+
+<div class="button horizontal" (click)="move({x: -15, y: 0})" style="left: 4px"><img src="assets/icons/btn_dleft.png" /></div>
+<div class="button horizontal" (click)="move({x: -5, y: 0})" style="left: 56px"><img src="assets/icons/btn_left.png" /></div>
+<div class="button horizontal" (click)="move({x: 15, y: 0})" style="right: 4px"><img src="assets/icons/btn_dright.png" /></div>
+<div class="button horizontal" (click)="move({x: 5, y: 0})" style="right: 56px"><img src="assets/icons/btn_right.png" /></div>

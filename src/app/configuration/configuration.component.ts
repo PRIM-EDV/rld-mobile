@@ -1,8 +1,9 @@
-import { Component, AfterViewInit, Input, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, Input, ViewChild, AfterContentInit, SimpleChanges, OnChanges } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 import { DeviceComponent } from '../device/device.component';
+import { CalibrationComponent } from '../calibration/calibration.component';
 
 interface Tab {
     label: string;
@@ -15,8 +16,9 @@ interface Tab {
     templateUrl: 'configuration.component.html',
 
 })
-export class ConfigurationComponent implements AfterViewInit {
+export class ConfigurationComponent implements AfterContentInit, OnChanges {
     @ViewChild(DeviceComponent, {static: true}) public deviceComponent: DeviceComponent;
+    @ViewChild(CalibrationComponent, {static: true}) public calibrationComponent: CalibrationComponent;
 
     private _activeTab = {label: 'DEVICE', target: 'device'};
     private _tabs: Array<Tab> = [
@@ -28,7 +30,8 @@ export class ConfigurationComponent implements AfterViewInit {
     constructor(private _router: Router, private _menu: MenuController) {
     }
 
-    public back() {
+    public goBack() {
+        console.log('back');
         this._router.navigate(['/home']);
         this._menu.enable(true);
     }
@@ -39,11 +42,19 @@ export class ConfigurationComponent implements AfterViewInit {
         switch (tab.target) {
             case 'device': {
                 this.deviceComponent.open();
+                break;
+            }
+            case 'calibration' : {
+                this.calibrationComponent.open();
             }
         }
     }
 
-    ngAfterViewInit() {
+    ngAfterContentInit() {
         this._menu.enable(false);
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+
     }
 }
